@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  user_id             Int   @id   @default(autoincrement())
+  user_name           String @db.VarChar(30) 
+  user_email          String @unique  @db.VarChar(30) 
+  user_password       String  @db.VarChar(255)
+  user_admin          Boolean   @default(false)
+  user_status         String  @db.Char(1) @default("A") 
+  user_quant_acesso   Int    @default(1)
+
+  sales               Sale[]
+  products            Product[] 
+}
+
+
+model Product{
+  pr_id               Int   @id   @default(autoincrement())
+  pr_name             String  @db.VarChar(30)
+  pr_price            Float
+  user_id             Int
+  pr_is_delete        Boolean @default(false)
+
+  user                User  @relation(fields:[user_id],references:[user_id])
+  itens               ItemSale[]
+           
+
+}
+
+
+model Sale{
+  sl_id              Int   @id   @default(autoincrement())
+  sl_total           Float
+  sl_data            DateTime @default(now())
+  sl_is_delete       Boolean @default(false)
+  user_id            Int
+
+
+  user               User  @relation(fields:[user_id],references:[user_id])
+  itens              ItemSale[] 
+
+    
+}
+
+
+
+model ItemSale{
+  itsl_id             Int   @id   @default(autoincrement())
+  itsl_quantidade     Int   @default(1)
+  sl_id               Int
+  pr_id               Int
+
+  sale                Sale  @relation(fields:[sl_id],references:[sl_id])
+  product             Product  @relation(fields:[pr_id],references:[pr_id])
+
+}
