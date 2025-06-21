@@ -1,5 +1,5 @@
-import prisma from "../prisma/prisma";
-import { Prisma ,User } from "@prisma/client";
+import prisma from "../database/prisma";
+import { User, Prisma } from "../generated/prisma";
 
 
 export class UserService{

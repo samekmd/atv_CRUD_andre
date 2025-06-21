@@ -1,5 +1,5 @@
-import prisma from "../prisma/prisma";
-import { Sale, Prisma } from "@prisma/client";
+import prisma from "../database/prisma";
+import { Sale, Prisma } from "../generated/prisma";
 
 export default class SaleService{
 

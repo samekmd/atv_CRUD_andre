@@ -4,7 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import router from "./routes";
-import prisma from "./prisma/prisma";
+import prisma from "./database/prisma";
 
 dotenv.config()
 

@@ -1,4 +1,4 @@
-import prisma from "../prisma/prisma";
+import prisma from "../database/prisma";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from "dotenv";
