@@ -4,6 +4,7 @@ import './App.css'
 import LandPage from './pages/landPage/landPage'
 import Login from './pages/login/login'
 import Products from './pages/products/products'
+import Sales from './pages/sales/sales'
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
             <Route path='/' element={<LandPage/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/products' element={<Products/>}/>
+            <Route path='/sales' element={<Sales/>}/>
       </Routes>
     </>
   )
