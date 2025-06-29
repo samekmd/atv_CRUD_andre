@@ -5,10 +5,11 @@ const saleService = new SaleService()
 
 const createSale = async (req:Request, res: Response) => {
     try{
+        const {products, ...rest} = req.body
         const data = {
-            ...req.body
+            ...rest
         }
-        const sale = await saleService.createSale(data) 
+        const sale = await saleService.createSale(data, products) 
         res.status(201).json(sale)
     }catch(error){
         console.log("Erro ao cadastrar venda", error)

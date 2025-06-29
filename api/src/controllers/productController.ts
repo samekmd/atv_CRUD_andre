@@ -30,7 +30,7 @@ const getProduct = async (req:Request, res: Response) => {
 
 const getProducts = async (req:Request, res: Response) => {
     try{
-        const{user_id} = req.body
+        const{user_id} = req.params
         const products = await productService.getProducts(Number(user_id))
         res.status(200).json(products)
     }catch(error){

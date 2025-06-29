@@ -9,12 +9,19 @@ export default class ItemSaleService{
         return itemSale
     }
 
-    async getItensSale(sl_id:number):Promise<ItemSale[] | null>{
+    async getItensSale(sl_id:number){
         const itemSale = await prisma.itemSale.findMany({
             where:{sl_id: sl_id},
-            include: {
-                sale: true,
-                product:true
+            select:{
+                itsl_id:true,
+                itsl_quantidade:true,
+                product:{
+                    select:{
+                        pr_id:true,
+                        pr_name:true,
+                        pr_price:true
+                    }
+                }
             }
         })
 

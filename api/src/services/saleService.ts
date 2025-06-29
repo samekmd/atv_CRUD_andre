@@ -1,11 +1,33 @@
 import prisma from "../database/prisma";
-import { Sale, Prisma } from "../generated/prisma";
+import { Sale, Prisma, Product } from "../generated/prisma";
+import ItemSaleService from "./itemSaleService";
+
+interface ProductSale {
+    itsl_quantidade: number,
+    pr_id:number
+}
 
 export default class SaleService{
 
-    async createSale(data: Prisma.SaleCreateInput):Promise<Sale>{
-        const sale = await prisma.sale.create({data})
-        return sale
+    
+    async createSale(data: Prisma.SaleCreateInput, products: ProductSale[]):Promise<Sale>{
+        return await prisma.$transaction(async (tx) => {
+
+            const sale = await tx.sale.create({data})
+
+            const itemSaleData = products.map(product => ({
+                itsl_quantidade: product.itsl_quantidade,
+                sl_id: sale.sl_id,
+                pr_id: product.pr_id
+            }));
+
+            await tx.itemSale.createMany({
+                data:itemSaleData
+            })
+            
+            return sale
+        })
+
     }
 
 

@@ -41,13 +41,7 @@ export default class AuthService{
 
         return {
             message:'Login realizado com sucesso',
-            token,
-            user:{
-                id: user.user_id,
-                nome: user.user_name,
-                email: user.user_email,
-                admin: user.user_admin
-            }
+            token
         };
     }
 }

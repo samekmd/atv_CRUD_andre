@@ -16,7 +16,7 @@ export default class ProductService{
 
     async getProducts(user_id:number):Promise<Product[] | null>{
         return await prisma.product.findMany({
-            where: {user_id}
+            where: {user_id:user_id, pr_is_delete:false}
         })
     }
 
