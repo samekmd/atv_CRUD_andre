@@ -4,12 +4,13 @@ import dotenv from "dotenv"
 dotenv.config
 
 const PASSWORD = process.env.EMAIL_PASSWORD
+const USER_EMAIL = process.env.EMAIL_USER
 
 const sendResetEmail = async(to: string, resetToken:string) => {
     const transporter = nodemailer.createTransport({
         service:"gmail",
         auth: {
-            user:"samuelalkmc@gmail.com",
+            user:USER_EMAIL,
             pass:PASSWORD
         }
     })
