@@ -3,7 +3,7 @@ import { createUser, deleteUser, updateUser, getUser, getUsers } from "./control
 import { createProduct, softDeleteProduct, updateProduct, getProduct, getProducts } from "./controllers/productController";
 import { createSale, deleteSale, updateSale, getSale, getSales } from "./controllers/saleController";
 import { createItemSale, getItensSale } from "./controllers/itemSaleController";
-import { login } from "./controllers/authController";
+import { login, requestResetPasswordController, resetPasswordController } from "./controllers/authController";
 import { ensureAuthenticaded, ensureAdmin } from "./middlewares/authMiddleware";
 
 const router = Router()
@@ -37,6 +37,11 @@ router.get("/sale/user/:user_id", getSales)
 //ItemSale
 router.post("/itemSale", createItemSale)
 router.get("/itemSale/:sl_id", getItensSale)
+
+
+//RESET-PASSWORD
+router.post("/request-reset-password", requestResetPasswordController);
+router.post("/reset-password", resetPasswordController);    
 
 
 
