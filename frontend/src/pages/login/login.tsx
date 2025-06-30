@@ -30,6 +30,19 @@ function Login(){
         }
     }
 
+
+    const handleSendEmail = async () => {
+        try{
+            await axios.post("http://localhost:3000/request-reset-password",{
+                user_email: email
+            })
+            alert(`Um email para ${email} foi enviado para resetar a senha`)
+        }catch(error){
+            alert("Erro ao enviar email")
+            console.error("Erro ao enviar email")
+        }
+    }
+
     return (
         <>
             <div className="main-content">
@@ -48,6 +61,11 @@ function Login(){
                     </svg>
                     <span>Entrar</span>     
                 </button>
+                
+                <button className="btn-reset-pass" onClick={() => handleSendEmail()}>
+                    <p>Esqueceu a senha?</p>
+                </button>
+                
             </div>
         </>
     )

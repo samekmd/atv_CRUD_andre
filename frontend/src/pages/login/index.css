@@ -124,3 +124,11 @@ body{
 .btn:hover span {
   color: white;
 }
+
+.btn-reset-pass{
+    background-color: transparent;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 15px;
+}

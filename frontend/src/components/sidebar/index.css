@@ -9,16 +9,39 @@
 }
 
 
-a{
+.links{
+    width: 50%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 2%;
+}
+
+.links a{
     text-decoration: none;
     color: white;
-    width: 7%;
+    width: 12%;
     margin-right: 15px;
     font-size: 20px;
 }
 
-a:hover{
+
+.links a:hover{
     background-color: #00a896;
     border-radius: 20px;
     transition: 0.5s;
+}
+
+.home{
+    width: 50%;
+    display: flex;
+    justify-content: left;
+    margin-left: 3%;
+}
+
+.home a{
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
 }
