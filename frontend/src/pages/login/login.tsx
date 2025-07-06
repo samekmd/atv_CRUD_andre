@@ -8,6 +8,7 @@ function Login(){
 
     const[email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [userAttempts, setUserAttempts] = useState(0)
     const navigate = useNavigate()
 
 
@@ -18,13 +19,19 @@ function Login(){
             "user_password": password
         }
         try{
-            const result = await axios.post("http://localhost:3000/login", data)
-            const token = result.data.token
-            sessionStorage.setItem("userData",token)
-            alert("Login realizado com sucesso!")
-            navigate("/products")
-        
+            if (userAttempts > 3){
+                alert("Usuário bloqueado por excesso de tentativas")
+                setUserAttempts(0)
+            }else{
+                const result = await axios.post("http://localhost:3000/login", data)
+                const token = result.data.token
+                sessionStorage.setItem("userData",token)
+                alert("Login realizado com sucesso!")
+                navigate("/products")
+                setUserAttempts(0)
+            }  
         }catch(error){
+            setUserAttempts(userAttempts + 1)
             console.log("Erro ao efetuar login: ", error)
             alert("Erro ao efetuar login")
         }
