@@ -4,10 +4,13 @@ import jwt from 'jsonwebtoken'
 import dotenv from "dotenv";
 import crypto from "crypto";
 import { sendResetEmail } from "./emailService";
+import { UserService } from "./userService";
 
 dotenv.config()
 
 const SECRET = process.env.JWT_SECRET || 'meuSegredo'
+const BLOCK_TIME_MINUTES = 15
+const userService = new UserService()
 
 export default class AuthService{
 
@@ -17,19 +20,41 @@ export default class AuthService{
             where: {user_email: user_email}
         })
 
+
         if (!user){
             throw new Error("Email inválido")
         }
 
+        if(user.user_status ==   'B'){
+            const now = new Date();
+            const diffMs = now.getTime() - (user.last_attempt?.getTime() ?? now.getTime());
+            const diffMinutes = diffMs / 1000 / 60;
+
+            if(diffMinutes >= BLOCK_TIME_MINUTES){
+                await userService.updateUser(user.user_id, {user_status:"A", user_login_attempts: 0})
+            }else{
+                throw new Error("Usuário bloqueado")
+            }
+            
+        }
+
+
+        if(user.user_login_attempts >= 3){
+           await userService.updateUser(user.user_id, {user_status:"B"})
+        } 
+
+        
+
         const password = await bcrypt.compare(user_password, user.user_password)
 
         if(!password){
+            userService.updateUser(user.user_id, {user_login_attempts:{increment : 1}, last_attempt: new Date()})
             throw new Error("Senha inválida")
         }
 
-        if(user.user_status !== 'A'){
-            throw new Error("Usuário bloqueado")
-        }
+        
+
+        await userService.updateUser(user.user_id, {user_login_attempts: 0})
 
         const token = jwt.sign(
             {

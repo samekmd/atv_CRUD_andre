@@ -21,9 +21,10 @@ model User{
   user_password             String  @db.VarChar(255)
   user_admin                Boolean   @default(false)
   user_status               String  @db.Char(1) @default("A") 
-  user_quant_acesso         Int    @default(1)
   reset_token               String?
   reset_token_expiration    DateTime?
+  user_login_attempts       Int    @default(0)
+  last_attempt              DateTime?
 
   sales               Sale[]
   products            Product[] 

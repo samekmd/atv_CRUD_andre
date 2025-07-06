@@ -6,8 +6,9 @@ const auth = new AuthService()
 
 
 const login = async (req:Request, res:Response) => {
+    const {user_email, user_password} = req.body
+    
     try{
-        const {user_email, user_password} = req.body
         const result = await auth.login(user_email, user_password)
         res.status(200).json(result)
     }catch(error){
