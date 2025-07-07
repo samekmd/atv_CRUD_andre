@@ -2,6 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router"
 import "./index.css"
+import ModalRequestEmail from "../../components/modalRequestEmail/modalRequestEmail"
 
 function Login(){
 
@@ -9,8 +10,18 @@ function Login(){
     const[email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [userAttempts, setUserAttempts] = useState(0)
+    const [isOpenModal, setIsOpenModal] = useState(false)
     const navigate = useNavigate()
 
+    const toogleModal = (n: number) => {
+        if (n == 0){
+            setIsOpenModal(false)
+        }else if(n == 1){
+            setIsOpenModal(true)
+        }else{
+            alert("Erro ao abrir modal")
+        }
+    }
 
 
     const handleSubmit = async () => {
@@ -38,17 +49,7 @@ function Login(){
     }
 
 
-    const handleSendEmail = async () => {
-        try{
-            await axios.post("http://localhost:3000/request-reset-password",{
-                user_email: email
-            })
-            alert(`Um email para ${email} foi enviado para resetar a senha`)
-        }catch(error){
-            alert("Erro ao enviar email")
-            console.error("Erro ao enviar email")
-        }
-    }
+
 
     return (
         <>
@@ -69,10 +70,11 @@ function Login(){
                     <span>Entrar</span>     
                 </button>
                 
-                <button className="btn-reset-pass" onClick={() => handleSendEmail()}>
+                <button className="btn-reset-pass" onClick={() => toogleModal(1)}>
                     <p>Esqueceu a senha?</p>
                 </button>
                 
+                {isOpenModal && <ModalRequestEmail onClose={() => toogleModal(0)}/>}
             </div>
         </>
     )
